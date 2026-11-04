@@ -1,0 +1,230 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\DssMultiEmpresa.API.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\DssMultiEmpresa.API.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\js\\app.js||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Frontend\\js\\app.js||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Database\\init.sql||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Database\\init.sql||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Database\\migration_update.sql||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Database\\migration_update.sql||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\CentrosCostoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\Controllers\\CentrosCostoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\CategoriasController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\Controllers\\CategoriasController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Services\\IAuthService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\Services\\IAuthService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\index.html||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Frontend\\index.html||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Services\\DssService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\Services\\DssService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\css\\styles.css||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Frontend\\css\\styles.css||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Backend\\DssMultiEmpresa.API\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IAuthService.cs",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Services\\IAuthService.cs",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\Services\\IAuthService.cs",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Services\\IAuthService.cs",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\Services\\IAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-28T16:13:55.783Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "migration_update.sql",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Database\\migration_update.sql",
+              "RelativeDocumentMoniker": "Database\\migration_update.sql",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Database\\migration_update.sql",
+              "RelativeToolTip": "Database\\migration_update.sql",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-10-25T22:51:36.051Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DssMultiEmpresa.API.csproj",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\DssMultiEmpresa.API.csproj",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\DssMultiEmpresa.API.csproj",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\DssMultiEmpresa.API.csproj",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\DssMultiEmpresa.API.csproj",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABQAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-10-14T01:35:09.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "init.sql",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Database\\init.sql",
+              "RelativeDocumentMoniker": "Database\\init.sql",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Database\\init.sql",
+              "RelativeToolTip": "Database\\init.sql",
+              "ViewState": "AgIAANUAAAAAAAAAAAAAAO4AAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-10-14T13:54:12.749Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CentrosCostoController.cs",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\CentrosCostoController.cs",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\Controllers\\CentrosCostoController.cs",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\CentrosCostoController.cs",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\Controllers\\CentrosCostoController.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-28T17:04:25.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "styles.css",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\css\\styles.css",
+              "RelativeDocumentMoniker": "Frontend\\css\\styles.css",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\css\\styles.css",
+              "RelativeToolTip": "Frontend\\css\\styles.css",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABcAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-20T01:49:05.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "app.js",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\js\\app.js",
+              "RelativeDocumentMoniker": "Frontend\\js\\app.js",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\js\\app.js",
+              "RelativeToolTip": "Frontend\\js\\app.js",
+              "ViewState": "AgIAAM8CAAAAAAAAAAASwOcCAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-10-14T02:27:09.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-28T16:15:50.308Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "DssService.cs",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Services\\DssService.cs",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\Services\\DssService.cs",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Services\\DssService.cs",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\Services\\DssService.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAGcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-20T01:56:24.115Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CategoriasController.cs",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\CategoriasController.cs",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\Controllers\\CategoriasController.cs",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Controllers\\CategoriasController.cs",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\Controllers\\CategoriasController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-28T17:04:18.817Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\index.html",
+              "RelativeDocumentMoniker": "Frontend\\index.html",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Frontend\\index.html",
+              "RelativeToolTip": "Frontend\\index.html",
+              "ViewState": "AgIAAP8AAAAAAAAAAAASwBMBAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-10-20T00:47:32.847Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Program.cs",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\Program.cs",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\Program.cs",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\Program.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAAwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-14T01:51:23.831Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\appsettings.json",
+              "RelativeDocumentMoniker": "Backend\\DssMultiEmpresa.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\MSIrtx\\OneDrive\\Desktop\\ProyectoDeAula\\Backend\\DssMultiEmpresa.API\\appsettings.json",
+              "RelativeToolTip": "Backend\\DssMultiEmpresa.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-10-14T01:32:24.637Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

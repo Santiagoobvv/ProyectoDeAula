@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="JAS — Panel de Control Financiero y Contable para contadores independientes en Colombia. Gestión integral de múltiples empresas, Plan Único de Cuentas (PUC), terceros, presupuestos y soporte a decisiones.">
+  <title>JAS | Panel de Control Financiero y Contable</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       TOAST CONTAINER
+       ═══════════════════════════════════════════════ -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ═══════════════════════════════════════════════
+       LOGIN PAGE
+       ═══════════════════════════════════════════════ -->
+  <div id="login-page" class="login-page">
+    <div class="login-card">
+      <h1>
+        <i class="bi bi-bar-chart-line"></i> JAS
+      </h1>
+      <p class="subtitle">Panel de Control Financiero &amp; Contable</p>
+
+      <div class="login-tabs">
+        <button id="tab-login" class="active" onclick="switchAuthTab('login')">Iniciar Sesión</button>
+        <button id="tab-register" onclick="switchAuthTab('register')">Registrarse</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" onsubmit="handleLogin(event)">
+        <div class="form-group" style="margin-bottom:1rem">
+          <label for="login-email">Correo electrónico del contador</label>
+          <input type="email" id="login-email" placeholder="contador@ejemplo.com" required>
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem">
+          <label for="login-password">Contraseña</label>
+          <input type="password" id="login-password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">
+          <i class="bi bi-box-arrow-in-right"></i> Ingresar al Sistema
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-register" style="display:none" onsubmit="handleRegister(event)">
+        <div class="form-group" style="margin-bottom:1rem">
+          <label for="reg-name">Nombre completo del contador</label>
+          <input type="text" id="reg-name" placeholder="Ej: Carlos Eduardo Pérez Gómez" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)" required>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem">
+          <label for="reg-email">Correo electrónico</label>
+          <input type="email" id="reg-email" placeholder="contador@ejemplo.com" required>
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem">
+          <label for="reg-password">Contraseña</label>
+          <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">
+          <i class="bi bi-person-plus"></i> Crear Cuenta
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       APP LAYOUT (visible tras login)
+       ═══════════════════════════════════════════════ -->
+  <div id="app-layout" class="app-layout">
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <button onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+      <h2 style="font-size:1.1rem; margin:0"><i class="bi bi-bar-chart-line"></i> JAS</h2>
+    </div>
+
+    <!-- ── SIDEBAR ── -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-brand">
+        <h2>
+          <i class="bi bi-bar-chart-line"></i> JAS
+        </h2>
+        <small>Panel de Control Financiero</small>
+      </div>
+
+      <!-- Selector de empresa activa -->
+      <div class="empresa-selector">
+        <label for="empresa-activa"><i class="bi bi-building-check"></i> Empresa Activa</label>
+        <select id="empresa-activa" onchange="onEmpresaChange()">
+          <option value="">— Seleccione empresa —</option>
+        </select>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li>
+          <button class="active" data-section="dashboard" onclick="navigateTo('dashboard')">
+            <span class="icon"><i class="bi bi-graph-up-arrow"></i></span> Dashboard DSS
+          </button>
+        </li>
+        <li>
+          <button data-section="transacciones" onclick="navigateTo('transacciones')">
+            <span class="icon"><i class="bi bi-cash-stack"></i></span> Transacciones
+          </button>
+        </li>
+        <li>
+          <button data-section="presupuestos" onclick="navigateTo('presupuestos')">
+            <span class="icon"><i class="bi bi-bullseye"></i></span> Presupuestos
+          </button>
+        </li>
+        <li>
+          <button data-section="cuentas" onclick="navigateTo('cuentas')">
+            <span class="icon"><i class="bi bi-journal-bookmark-fill"></i></span> Cuentas Contables (PUC)
+          </button>
+        </li>
+        <li>
+          <button data-section="terceros" onclick="navigateTo('terceros')">
+            <span class="icon"><i class="bi bi-people-fill"></i></span> Terceros
+          </button>
+        </li>
+        <li>
+          <button data-section="centros-costo" onclick="navigateTo('centros-costo')">
+            <span class="icon"><i class="bi bi-diagram-3-fill"></i></span> Centros de Costo
+          </button>
+        </li>
+        <li>
+          <button data-section="empresas" onclick="navigateTo('empresas')">
+            <span class="icon"><i class="bi bi-building"></i></span> Mis Empresas
+          </button>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="user-avatar">C</div>
+          <div>
+            <div class="user-name" id="user-name">Contador</div>
+            <div class="user-email" id="user-email">email@example.com</div>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="logout()">
+          <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="main-content">
+
+      <!-- ════════════════ 1. DASHBOARD DSS ════════════════ -->
+      <div id="section-dashboard" class="section active">
+        <div class="section-header">
+          <div>
+            <h1>Dashboard DSS</h1>
+            <p class="header-subtitle" id="dashboard-empresa-name">Seleccione una empresa activa para ver los indicadores financieros</p>
+          </div>
+          <div class="period-selector">
+            <label>Mes:</label>
+            <select id="dash-mes" onchange="loadDashboard()"></select>
+            <label>Año:</label>
+            <input type="number" id="dash-anio" value="2026" min="2020" max="2050" style="width:85px" onchange="loadDashboard()">
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="kpi-card ingresos">
+            <div class="kpi-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="kpi-label">Total Ingresos</div>
+            <div class="kpi-value" id="kpi-ingresos">$0</div>
+          </div>
+          <div class="kpi-card gastos">
+            <div class="kpi-icon"><i class="bi bi-graph-down-arrow"></i></div>
+            <div class="kpi-label">Total Gastos &amp; Costos</div>
+            <div class="kpi-value" id="kpi-gastos">$0</div>
+          </div>
+          <div class="kpi-card flujo">
+            <div class="kpi-icon"><i class="bi bi-wallet2"></i></div>
+            <div class="kpi-label">Flujo de Caja Neto</div>
+            <div class="kpi-value" id="kpi-flujo">$0</div>
+          </div>
+          <div class="kpi-card alerta">
+            <div class="kpi-icon"><i class="bi bi-exclamation-triangle"></i></div>
+            <div class="kpi-label">Estado Financiero DSS</div>
+            <div id="kpi-alerta"><span class="alert-badge verde">● Verde</span></div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3><i class="bi bi-bar-chart-line"></i> Flujo de Caja Mensual</h3>
+            <canvas id="chart-flujo"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3><i class="bi bi-pie-chart"></i> Distribución Ingresos vs Gastos</h3>
+            <canvas id="chart-distribucion"></canvas>
+          </div>
+        </div>
+
+        <!-- Ejecución presupuestal -->
+        <div class="chart-card" style="margin-bottom:2rem">
+          <h3><i class="bi bi-clipboard-data"></i> Ejecución Presupuestal por Categoría y Cuenta</h3>
+          <div id="ejecucion-list" class="budget-list">
+            <div class="empty-state">
+              <div class="empty-icon"><i class="bi bi-clipboard-data"></i></div>
+              <p>Configure presupuestos para ver el avance y las alertas en tiempo real.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recomendaciones DSS -->
+        <div class="recommendation-card">
+          <h3><i class="bi bi-lightbulb"></i> Recomendaciones Tácticas del Sistema DSS</h3>
+          <div class="rec-text" id="dss-recomendacion">
+            Seleccione una empresa y un periodo para obtener análisis automáticos.
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════ 2. TRANSACCIONES CONTABLES ════════════════ -->
+      <div id="section-transacciones" class="section">
+        <div class="section-header">
+          <div>
+            <h1><i class="bi bi-cash-stack"></i> Transacciones Contables</h1>
+            <p class="header-subtitle">Registro de movimientos con código contable PUC, tercero, centro de costo y soporte documental</p>
+          </div>
+          <button class="btn btn-primary" onclick="abrirModalTransaccion()">
+            <i class="bi bi-receipt"></i> Crear Nueva Transacción
+          </button>
+        </div>
+
+        <!-- Filtros avanzados y tabla -->
+        <div class="filter-bar">
+          <div class="search-group">
+            <input type="text" id="tx-search-input" class="search-input" placeholder="Buscar por concepto, cuenta, tercero o soporte..." oninput="filtrarTransacciones()">
+          </div>
+          <div>
+            <label>Mes:</label>
+            <select id="tx-filter-mes" onchange="loadTransacciones()"></select>
+          </div>
+          <div>
+            <label>Año:</label>
+            <input type="number" id="tx-filter-anio" value="2026" min="2020" max="2050" style="width:85px" onchange="loadTransacciones()">
+          </div>
+          <div>
+            <label>Tipo:</label>
+            <select id="tx-filter-tipo" onchange="loadTransacciones()">
+              <option value="">Todos</option>
+              <option value="Ingreso">Ingresos</option>
+              <option value="Egreso">Egresos</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="limpiarFiltrosTransacciones()">
+            <i class="bi bi-arrow-clockwise"></i> Limpiar
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>No. TX</th>
+                <th>Cuenta PUC</th>
+                <th>Tercero</th>
+                <th>Centro Costo</th>
+                <th>Concepto &amp; Soporte</th>
+                <th style="text-align:right">Débito</th>
+                <th style="text-align:right">Crédito</th>
+                <th style="text-align:right">Monto</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="transacciones-body">
+              <tr><td colspan="10" class="empty-state" style="padding:2rem">Sin transacciones registradas para este periodo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════════════ 3. GESTIÓN DE PRESUPUESTOS ════════════════ -->
+      <div id="section-presupuestos" class="section">
+        <div class="section-header">
+          <div>
+            <h1><i class="bi bi-bullseye"></i> Planificación y Presupuestos</h1>
+            <p class="header-subtitle">Planifique ingresos, costos y gastos organizados por categorías financieras y cuentas contables</p>
+          </div>
+          <button class="btn btn-primary" onclick="abrirModalPresupuesto()">
+            <i class="bi bi-wallet2"></i> Nuevo Presupuesto
+          </button>
+        </div>
+
+        <!-- Tarjetas indicadoras por categoría presupuestal -->
+        <div class="category-cards-grid" id="pres-cat-indicators">
+          <div class="cat-indicator-card honorarios" onclick="filtrarPresupuestoPorCategoria('Honorarios')">
+            <div class="cat-card-title"><span><i class="bi bi-award"></i> Honorarios</span> <i class="bi bi-chevron-right"></i></div>
+            <div class="cat-card-amount" id="cat-amount-honorarios">$0</div>
+            <div class="cat-card-count" id="cat-count-honorarios">0 partidas</div>
+          </div>
+          <div class="cat-indicator-card servicios" onclick="filtrarPresupuestoPorCategoria('Servicios')">
+            <div class="cat-card-title"><span><i class="bi bi-lightning-charge"></i> Servicios</span> <i class="bi bi-chevron-right"></i></div>
+            <div class="cat-card-amount" id="cat-amount-servicios">$0</div>
+            <div class="cat-card-count" id="cat-count-servicios">0 partidas</div>
+          </div>
+          <div class="cat-indicator-card personal" onclick="filtrarPresupuestoPorCategoria('Personal')">
+            <div class="cat-card-title"><span><i class="bi bi-people"></i> Personal</span> <i class="bi bi-chevron-right"></i></div>
+            <div class="cat-card-amount" id="cat-amount-personal">$0</div>
+            <div class="cat-card-count" id="cat-count-personal">0 partidas</div>
+          </div>
+          <div class="cat-indicator-card educacion" onclick="filtrarPresupuestoPorCategoria('Educación')">
+            <div class="cat-card-title"><span><i class="bi bi-mortarboard"></i> Educación</span> <i class="bi bi-chevron-right"></i></div>
+            <div class="cat-card-amount" id="cat-amount-educacion">$0</div>
+            <div class="cat-card-count" id="cat-count-educacion">0 partidas</div>
+          </div>
+          <div class="cat-indicator-card operacion" onclick="filtrarPresupuestoPorCategoria('Operación')">
+            <div class="cat-card-title"><span><i class="bi bi-gear"></i> Operación</span> <i class="bi bi-chevron-right"></i></div>
+            <div class="cat-card-amount" id="cat-amount-operacion">$0</div>
+            <div class="cat-card-count" id="cat-count-operacion">0 partidas</div>
+          </div>
+          <div class="cat-indicator-card ingresos" onclick="filtrarPresupuestoPorCategoria('Ingresos')">
+            <div class="cat-card-title"><span><i class="bi bi-graph-up"></i> Ingresos</span> <i class="bi bi-chevron-right"></i></div>
+            <div class="cat-card-amount" id="cat-amount-ingresos">$0</div>
+            <div class="cat-card-count" id="cat-count-ingresos">0 partidas</div>
+          </div>
+        </div>
+
+        <!-- Buscador y Filtros -->
+        <div class="filter-bar">
+          <div class="search-group">
+            <input type="text" id="pres-search-input" class="search-input" placeholder="Buscar presupuesto por código, nombre, cuenta o descripción..." oninput="filtrarPresupuestos()">
+          </div>
+          <div>
+            <label>Categoría:</label>
+            <select id="pres-filter-cat" onchange="loadPresupuestos()">
+              <option value="">Todas las categorías</option>
+              <option value="Honorarios">Honorarios</option>
+              <option value="Servicios">Servicios</option>
+              <option value="Personal">Personal</option>
+              <option value="Educación">Educación</option>
+              <option value="Operación">Operación</option>
+              <option value="Ingresos">Ingresos</option>
+              <option value="Otras">Otras</option>
+            </select>
+          </div>
+          <div>
+            <label>Mes:</label>
+            <select id="pres-filter-mes" onchange="loadPresupuestos()"></select>
+          </div>
+          <div>
+            <label>Año:</label>
+            <input type="number" id="pres-filter-anio" value="2026" min="2020" max="2050" style="width:85px" onchange="loadPresupuestos()">
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="limpiarFiltrosPresupuesto()">
+            <i class="bi bi-arrow-clockwise"></i> Todos
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Nombre &amp; Descripción</th>
+                <th>Categoría</th>
+                <th>Cuenta PUC</th>
+                <th>Periodo</th>
+                <th>Tipo</th>
+                <th style="text-align:right">Monto Presupuestado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="presupuestos-body">
+              <tr><td colspan="8" class="empty-state" style="padding:2rem">Sin presupuestos configurados para este periodo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════════════ 4. CUENTAS CONTABLES (PLAN ÚNICO DE CUENTAS) ════════════════ -->
+      <div id="section-cuentas" class="section">
+        <div class="section-header">
+          <div>
+            <h1><i class="bi bi-journal-bookmark-fill"></i> Plan Único de Cuentas (PUC)</h1>
+            <p class="header-subtitle">Estructura contable colombiana clasificada por clases, grupos, cuentas y subcuentas</p>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-outline" onclick="sembrarPucColombiano()">
+              <i class="bi bi-cloud-arrow-down"></i> Cargar PUC Base Colombiano
+            </button>
+            <button class="btn btn-primary" onclick="abrirModalCuenta()">
+              <i class="bi bi-plus-circle"></i> Nueva Cuenta Contable
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtros por Clase PUC -->
+        <div class="filter-pills" id="puc-clase-pills">
+          <button class="filter-pill active" onclick="filtrarCuentasPorClase(null)">Todas las Clases</button>
+          <button class="filter-pill" onclick="filtrarCuentasPorClase(1)">1 - Activos</button>
+          <button class="filter-pill" onclick="filtrarCuentasPorClase(2)">2 - Pasivos</button>
+          <button class="filter-pill" onclick="filtrarCuentasPorClase(3)">3 - Patrimonio</button>
+          <button class="filter-pill" onclick="filtrarCuentasPorClase(4)">4 - Ingresos</button>
+          <button class="filter-pill" onclick="filtrarCuentasPorClase(5)">5 - Gastos</button>
+          <button class="filter-pill" onclick="filtrarCuentasPorClase(6)">6 - Costos de Ventas</button>
+        </div>
+
+        <!-- Buscador -->
+        <div class="filter-bar">
+          <div class="search-group">
+            <input type="text" id="puc-search-input" class="search-input" placeholder="Buscar cuenta por código PUC (ej: 110505), nombre o descripción..." oninput="filtrarCuentas()">
+          </div>
+          <div>
+            <label>Naturaleza:</label>
+            <select id="puc-filter-naturaleza" onchange="loadCuentasContables()">
+              <option value="">Todas</option>
+              <option value="Debito">Débito</option>
+              <option value="Credito">Crédito</option>
+            </select>
+          </div>
+          <div>
+            <label>Estado:</label>
+            <select id="puc-filter-estado" onchange="loadCuentasContables()">
+              <option value="">Todos</option>
+              <option value="Activa">Activas</option>
+              <option value="Inactiva">Inactivas</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="limpiarFiltrosCuentas()">
+            <i class="bi bi-arrow-clockwise"></i> Limpiar
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Código PUC</th>
+                <th>Nombre de la Cuenta</th>
+                <th>Clase / Nivel</th>
+                <th>Categoría</th>
+                <th>Naturaleza</th>
+                <th>Terceros</th>
+                <th>Movimientos</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="cuentas-body">
+              <tr><td colspan="9" class="empty-state" style="padding:2rem">Cargando catálogo contable...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════════════ 5. CATÁLOGO DE TERCEROS ════════════════ -->
+      <div id="section-terceros" class="section">
+        <div class="section-header">
+          <div>
+            <h1><i class="bi bi-people-fill"></i> Catálogo de Terceros</h1>
+            <p class="header-subtitle">Administre clientes, proveedores, empleados y contratistas con validación de identificación tributaria</p>
+          </div>
+          <button class="btn btn-primary" onclick="abrirModalTercero()">
+            <i class="bi bi-person-plus"></i> Nuevo Tercero
+          </button>
+        </div>
+
+        <div class="filter-bar">
+          <div class="search-group">
+            <input type="text" id="terceros-search-input" class="search-input" placeholder="Buscar tercero por NIT, cédula, nombre o razón social..." oninput="filtrarTerceros()">
+          </div>
+          <div>
+            <label>Tipo de Tercero:</label>
+            <select id="terceros-filter-tipo" onchange="loadTerceros()">
+              <option value="">Todos los tipos</option>
+              <option value="Proveedor">Proveedores</option>
+              <option value="Cliente">Clientes</option>
+              <option value="Empleado">Empleados</option>
+              <option value="Contratista">Contratistas</option>
+              <option value="Otro">Otros</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="limpiarFiltrosTerceros()">
+            <i class="bi bi-arrow-clockwise"></i> Limpiar
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Identificación</th>
+                <th>Razón Social / Nombre</th>
+                <th>Tipo Tercero</th>
+                <th>Contacto</th>
+                <th>Ubicación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="terceros-body">
+              <tr><td colspan="7" class="empty-state" style="padding:2rem">Sin terceros registrados para esta empresa</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════════════ 6. CENTROS DE COSTO ════════════════ -->
+      <div id="section-centros-costo" class="section">
+        <div class="section-header">
+          <div>
+            <h1><i class="bi bi-diagram-3-fill"></i> Centros de Costo</h1>
+            <p class="header-subtitle">Imputación analítica de ingresos y gastos por departamentos, proyectos o áreas de negocio</p>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-outline" onclick="sembrarCentrosCostoBase()">
+              <i class="bi bi-magic"></i> Cargar Centros Base
+            </button>
+            <button class="btn btn-primary" onclick="abrirModalCentroCosto()">
+              <i class="bi bi-plus-circle"></i> Nuevo Centro de Costo
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Nombre del Centro de Costo</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="centros-costo-body">
+              <tr><td colspan="5" class="empty-state" style="padding:2rem">Sin centros de costo registrados</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════════════ 7. GESTIÓN INTEGRAL DE EMPRESAS ════════════════ -->
+      <div id="section-empresas" class="section">
+        <div class="section-header">
+          <div>
+            <h1><i class="bi bi-building"></i> Mis Empresas y Personas Administradas</h1>
+            <p class="header-subtitle">Registro profesional multi-empresa con información contable, ubicación, representante y datos tributarios DIAN</p>
+          </div>
+          <button class="btn btn-primary" onclick="abrirFormularioEmpresa(null)">
+            <i class="bi bi-building-add"></i> Registrar Nueva Empresa / Cliente
+          </button>
+        </div>
+
+        <!-- Cuadrícula de Empresas -->
+        <div id="empresas-grid" class="empresas-grid">
+          <div class="empty-state">
+            <div class="empty-icon"><i class="bi bi-building"></i></div>
+            <p>No tiene empresas registradas. Agregue su primer cliente arriba.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ════════════════ MODAL: TRANSACCIÓN CONTABLE ════════════════ -->
+  <div id="modal-transaccion" class="modal-overlay">
+    <div class="modal-window" style="max-width:920px">
+      <div class="modal-header">
+        <h3 id="modal-tx-title"><i class="bi bi-receipt"></i> Nuevo Movimiento Contable</h3>
+        <button type="button" class="modal-close" onclick="cerrarModalTransaccion()">&times;</button>
+      </div>
+      <form id="form-transaccion" onsubmit="crearTransaccion(event)">
+        <div class="modal-body">
+          <div style="display:flex; justify-content:flex-end; margin-bottom:0.75rem">
+            <span id="tx-cuenta-info-badge" style="font-size:0.8rem; color:var(--text-muted)"></span>
+          </div>
+
+          <!-- Fila 1: Fecha, Consecutivo, Cuenta Contable, Tipo -->
+          <div class="form-grid-4" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="tx-fecha">Fecha del Movimiento <span style="color:var(--alert-red)">*</span></label>
+              <input type="date" id="tx-fecha" required>
+            </div>
+            <div class="form-group">
+              <label for="tx-numero">No. de Transacción (opcional)</label>
+              <input type="text" id="tx-numero" placeholder="Autogenerado ej: TX-20261025-001">
+            </div>
+            <div class="form-group">
+              <label for="tx-cuenta-select">Cuenta Contable PUC <span style="color:var(--alert-red)">*</span></label>
+              <select id="tx-cuenta-select" required onchange="onTxCuentaSelectChange()">
+                <option value="">— Seleccione cuenta contable —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tx-tipo">Tipo Operacional <span style="color:var(--alert-red)">*</span></label>
+              <select id="tx-tipo" required>
+                <option value="Egreso">Egreso (Gasto / Costo)</option>
+                <option value="Ingreso">Ingreso</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Fila 2: Naturaleza (Débito/Crédito), Monto, Documento Soporte -->
+          <div class="form-grid-4" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="tx-naturaleza">Naturaleza Movimiento <span style="color:var(--alert-red)">*</span></label>
+              <select id="tx-naturaleza" required>
+                <option value="Debito">Débito (Debe)</option>
+                <option value="Credito">Crédito (Haber)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tx-monto">Valor / Monto ($ COP) <span style="color:var(--alert-red)">*</span></label>
+              <input type="number" id="tx-monto" step="0.01" min="0.01" placeholder="0.00" required>
+            </div>
+            <div class="form-group">
+              <label for="tx-doc-tipo">Tipo Documento Soporte</label>
+              <select id="tx-doc-tipo">
+                <option value="">— Sin soporte específico —</option>
+                <option value="Factura Electrónica de Venta">Factura Electrónica de Venta</option>
+                <option value="Factura Electrónica de Compra">Factura Electrónica de Compra</option>
+                <option value="Documento Soporte Electrónico">Documento Soporte Electrónico</option>
+                <option value="Recibo de Caja">Recibo de Caja</option>
+                <option value="Comprobante de Egreso">Comprobante de Egreso</option>
+                <option value="Cuenta de Cobro">Cuenta de Cobro</option>
+                <option value="Nota de Contabilidad">Nota de Contabilidad</option>
+                <option value="Extracto Bancario">Extracto Bancario</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tx-doc-numero">No. Documento Soporte</label>
+              <input type="text" id="tx-doc-numero" placeholder="Ej: FE-1042, CE-055">
+            </div>
+          </div>
+
+          <!-- Fila 3: Tercero y Centro de Costo -->
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="tx-tercero-select">
+                Tercero Vinculado <span id="tx-tercero-required-indicator" style="display:none; color:var(--alert-red)">*</span>
+              </label>
+              <select id="tx-tercero-select" onchange="onTxTerceroSelectChange()">
+                <option value="">— Seleccionar tercero existente —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tx-tercero-manual">Documento del Tercero (manual)</label>
+              <input type="text" id="tx-tercero-manual" placeholder="Ej: 900123456-1 o 104723456" oninput="Validaciones.validarDocTxManual(this)">
+            </div>
+            <div class="form-group">
+              <label for="tx-centro-costo">Centro de Costo</label>
+              <select id="tx-centro-costo">
+                <option value="">— Sin centro de costo —</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Fila 4: Concepto y Descripción detallada -->
+          <div class="form-row" style="margin-bottom:0.5rem">
+            <div class="form-group" style="flex:1">
+              <label for="tx-concepto">Concepto Resumido <span style="color:var(--alert-red)">*</span></label>
+              <input type="text" id="tx-concepto" placeholder="Ej: Pago honorarios asesoría contable mes de octubre" required>
+            </div>
+            <div class="form-group" style="flex:1">
+              <label for="tx-descripcion">Descripción Detallada / Justificación</label>
+              <input type="text" id="tx-descripcion" placeholder="Detalle de actividades, contrato o justificación contable">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="cerrarModalTransaccion()">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-floppy"></i> Registrar Movimiento Contable</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════════════════ MODAL: PRESUPUESTO FINANCIERO ════════════════ -->
+  <div id="modal-presupuesto" class="modal-overlay">
+    <div class="modal-window" style="max-width:780px">
+      <div class="modal-header">
+        <h3 id="pres-form-title"><i class="bi bi-wallet2"></i> Nuevo Presupuesto Financiero</h3>
+        <button type="button" class="modal-close" onclick="cerrarModalPresupuesto()">&times;</button>
+      </div>
+      <form id="form-presupuesto" onsubmit="guardarPresupuesto(event)">
+        <input type="hidden" id="pres-id" value="">
+        <div class="modal-body">
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="pres-codigo">Código del Presupuesto <span style="color:var(--alert-red)">*</span></label>
+              <input type="text" id="pres-codigo" placeholder="Ej: PRE-2026-HON-01" required>
+            </div>
+            <div class="form-group">
+              <label for="pres-nombre">Nombre de la Partida <span style="color:var(--alert-red)">*</span></label>
+              <input type="text" id="pres-nombre" placeholder="Ej: Presupuesto Honorarios Contables y Tributarios" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)" required>
+            </div>
+            <div class="form-group">
+              <label for="pres-categoria-seccion">Categoría Financiera <span style="color:var(--alert-red)">*</span></label>
+              <select id="pres-categoria-seccion" required>
+                <option value="Honorarios">Honorarios (Profesionales, Contables, Asesoría)</option>
+                <option value="Servicios">Servicios (Energía, Agua, Gas, Internet, Software)</option>
+                <option value="Personal">Personal (Salarios, Prestaciones, Seguridad Social)</option>
+                <option value="Educación">Educación (Diplomados, Cursos, Certificaciones)</option>
+                <option value="Operación">Operación (Arrendamientos, Transporte, Papelería)</option>
+                <option value="Ingresos">Ingresos (Servicios Contables, Asesorías)</option>
+                <option value="Otras">Otras Categorías</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-4" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="pres-mes">Mes <span style="color:var(--alert-red)">*</span></label>
+              <select id="pres-mes" required></select>
+            </div>
+            <div class="form-group">
+              <label for="pres-anio">Año <span style="color:var(--alert-red)">*</span></label>
+              <input type="number" id="pres-anio" value="2026" min="2020" max="2050" required>
+            </div>
+            <div class="form-group">
+              <label for="pres-tipo">Tipo de Presupuesto <span style="color:var(--alert-red)">*</span></label>
+              <select id="pres-tipo" required>
+                <option value="Gasto Fijo">Gasto Fijo</option>
+                <option value="Gasto Variable">Gasto Variable</option>
+                <option value="Costo">Costo Operacional</option>
+                <option value="Ingreso">Presupuesto de Ingreso</option>
+                <option value="Inversión">Inversión de Capital</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pres-monto">Monto Presupuestado ($ COP) <span style="color:var(--alert-red)">*</span></label>
+              <input type="number" id="pres-monto" step="0.01" min="0" placeholder="0.00" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="pres-cuenta-puc">Cuenta Contable PUC Asociada</label>
+              <select id="pres-cuenta-puc">
+                <option value="">— Opcional: Vincular a cuenta contable PUC —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="pres-categoria-dss">Categoría Macro DSS <span style="color:var(--alert-red)">*</span></label>
+              <select id="pres-categoria" required>
+                <option value="">— Seleccione categoría macro —</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:1rem">
+            <label for="pres-descripcion">Descripción Detallada / Justificación Presupuestal</label>
+            <textarea id="pres-descripcion" rows="3" placeholder="Explique qué se está presupuestando, para qué se utilizará el dinero, a qué actividad corresponde y qué observaciones aplican."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="cerrarModalPresupuesto()">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-floppy"></i> Guardar Presupuesto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════════════════ MODAL: CUENTA CONTABLE ════════════════ -->
+  <div id="modal-cuenta" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-cuenta-title"><i class="bi bi-journal-text"></i> Cuenta Contable PUC</h3>
+        <button type="button" class="modal-close" onclick="cerrarModalCuenta()">&times;</button>
+      </div>
+      <form id="form-cuenta-modal" onsubmit="guardarCuentaContable(event)">
+        <input type="hidden" id="modal-cuenta-id" value="">
+        <div class="modal-body">
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="m-cuenta-codigo">Código PUC <span style="color:var(--alert-red)">*</span></label>
+              <input type="text" id="m-cuenta-codigo" placeholder="Ej: 513530" inputmode="numeric" required oninput="Validaciones.soloNumerosInput(this); onCodigoCuentaModalInput()">
+            </div>
+            <div class="form-group" style="grid-column: span 2">
+              <label for="m-cuenta-nombre">Nombre de la Cuenta <span style="color:var(--alert-red)">*</span></label>
+              <input type="text" id="m-cuenta-nombre" placeholder="Ej: Energía Eléctrica" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)" required>
+            </div>
+          </div>
+
+          <div class="form-grid-4" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="m-cuenta-clase">Clase Contable <span style="color:var(--alert-red)">*</span></label>
+              <select id="m-cuenta-clase" required onchange="onClaseCuentaModalChange()">
+                <option value="1">1 - Activo</option>
+                <option value="2">2 - Pasivo</option>
+                <option value="3">3 - Patrimonio</option>
+                <option value="4">4 - Ingresos</option>
+                <option value="5">5 - Gastos</option>
+                <option value="6">6 - Costos de Ventas</option>
+                <option value="7">7 - Costos de Producción</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="m-cuenta-naturaleza">Naturaleza <span style="color:var(--alert-red)">*</span></label>
+              <select id="m-cuenta-naturaleza" required>
+                <option value="Debito">Débito</option>
+                <option value="Credito">Crédito</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="m-cuenta-nivel">Nivel</label>
+              <select id="m-cuenta-nivel">
+                <option value="Clase">Clase (1 dígito)</option>
+                <option value="Grupo">Grupo (2 dígitos)</option>
+                <option value="Cuenta">Cuenta (4 dígitos)</option>
+                <option value="Subcuenta" selected>Subcuenta (6 dígitos)</option>
+                <option value="Auxiliar">Auxiliar (8+ dígitos)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="m-cuenta-categoria">Categoría</label>
+              <select id="m-cuenta-categoria">
+                <option value="Gasto">Gasto</option>
+                <option value="Costo">Costo</option>
+                <option value="Ingreso">Ingreso</option>
+                <option value="Activo">Activo</option>
+                <option value="Pasivo">Pasivo</option>
+                <option value="Patrimonio">Patrimonio</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="m-cuenta-terceros">¿Maneja Terceros?</label>
+              <select id="m-cuenta-terceros">
+                <option value="true">Sí (Requiere tercero en movimientos)</option>
+                <option value="false" selected>No</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="m-cuenta-movimientos">¿Admite Movimientos?</label>
+              <select id="m-cuenta-movimientos">
+                <option value="true" selected>Sí (Cuenta de detalle/imputación)</option>
+                <option value="false">No (Cuenta de agrupación/título)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="m-cuenta-estado">Estado</label>
+              <select id="m-cuenta-estado">
+                <option value="Activa" selected>Activa</option>
+                <option value="Inactiva">Inactiva</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:1rem">
+            <label for="m-cuenta-desc">Descripción Contable (¿Qué se registra en esta cuenta?)</label>
+            <textarea id="m-cuenta-desc" rows="3" placeholder="Detalle técnico para orientar los registros y auditoría..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="cerrarModalCuenta()">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-floppy"></i> Guardar Cuenta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════════════════ MODAL: TERCERO ════════════════ -->
+  <div id="modal-tercero" class="modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-tercero-title"><i class="bi bi-people"></i> Registro de Tercero</h3>
+        <button type="button" class="modal-close" onclick="cerrarModalTercero()">&times;</button>
+      </div>
+      <form id="form-tercero-modal" onsubmit="guardarTercero(event)">
+        <input type="hidden" id="modal-tercero-id" value="">
+        <div class="modal-body">
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="m-ter-tipo">Tipo de Tercero <span style="color:var(--alert-red)">*</span></label>
+              <select id="m-ter-tipo" required>
+                <option value="Proveedor">Proveedor</option>
+                <option value="Cliente">Cliente</option>
+                <option value="Empleado">Empleado / Nómina</option>
+                <option value="Contratista">Contratista</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="m-ter-tipodoc">Tipo de Documento <span style="color:var(--alert-red)">*</span></label>
+              <select id="m-ter-tipodoc" required onchange="onModalTerceroDocChange()">
+                <option value="NIT">NIT</option>
+                <option value="CC">Cédula de Ciudadanía</option>
+                <option value="CE">Cédula de Extranjería</option>
+                <option value="Pasaporte">Pasaporte</option>
+                <option value="TI">Tarjeta de Identidad</option>
+                <option value="PPT">Permiso Protección Temporal</option>
+                <option value="Extranjero">Extranjero</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="m-ter-doc">Número de Documento <span style="color:var(--alert-red)">*</span></label>
+              <div style="display:flex; gap:0.4rem">
+                <input type="text" id="m-ter-doc" placeholder="Número" required oninput="Validaciones.validarDocTerceroInput(this); onModalTerceroDocInput()">
+                <input type="text" id="m-ter-dv" placeholder="DV" style="width:45px; text-align:center" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid-2" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="m-ter-razon">Razón Social o Nombre Completo <span style="color:var(--alert-red)">*</span></label>
+              <input type="text" id="m-ter-razon" placeholder="Nombre legal del tercero" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)" required>
+            </div>
+            <div class="form-group">
+              <label for="m-ter-comercial">Nombre Comercial (opcional)</label>
+              <input type="text" id="m-ter-comercial" placeholder="Nombre comercial o establecimiento" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="m-ter-depto">Departamento</label>
+              <input type="text" id="m-ter-depto" placeholder="Ej: Antioquia" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+            </div>
+            <div class="form-group">
+              <label for="m-ter-muni">Municipio</label>
+              <input type="text" id="m-ter-muni" placeholder="Ej: Medellín" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+            </div>
+            <div class="form-group">
+              <label for="m-ter-dir">Dirección</label>
+              <input type="text" id="m-ter-dir" placeholder="Dirección física">
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-group">
+              <label for="m-ter-email">Correo Electrónico</label>
+              <input type="email" id="m-ter-email" placeholder="correo@tercero.com">
+            </div>
+            <div class="form-group">
+              <label for="m-ter-tel">Teléfono / Celular</label>
+              <input type="text" id="m-ter-tel" placeholder="3001234567" inputmode="numeric" oninput="Validaciones.soloNumerosInput(this)">
+            </div>
+            <div class="form-group">
+              <label for="m-ter-estado">Estado</label>
+              <select id="m-ter-estado">
+                <option value="Activo" selected>Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="m-ter-obs">Observaciones</label>
+            <input type="text" id="m-ter-obs" placeholder="Condiciones de pago, tipo de retención, etc.">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="cerrarModalTercero()">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-floppy"></i> Guardar Tercero</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════════════════ MODAL: CENTRO DE COSTO ════════════════ -->
+  <div id="modal-centro-costo" class="modal-overlay">
+    <div class="modal-window" style="max-width:550px">
+      <div class="modal-header">
+        <h3 id="modal-cc-title"><i class="bi bi-diagram-3"></i> Centro de Costo</h3>
+        <button type="button" class="modal-close" onclick="cerrarModalCentroCosto()">&times;</button>
+      </div>
+      <form id="form-cc-modal" onsubmit="guardarCentroCosto(event)">
+        <input type="hidden" id="modal-cc-id" value="">
+        <div class="modal-body">
+          <div class="form-group" style="margin-bottom:1rem">
+            <label for="m-cc-codigo">Código <span style="color:var(--alert-red)">*</span></label>
+            <input type="text" id="m-cc-codigo" placeholder="Ej: CC-ADM, CC-VENTAS" required>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem">
+            <label for="m-cc-nombre">Nombre del Centro de Costo <span style="color:var(--alert-red)">*</span></label>
+            <input type="text" id="m-cc-nombre" placeholder="Ej: Administración y Finanzas" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)" required>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem">
+            <label for="m-cc-desc">Descripción</label>
+            <textarea id="m-cc-desc" rows="2" placeholder="Área o proyecto al que se imputan los registros"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="m-cc-estado">Estado</label>
+            <select id="m-cc-estado">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="cerrarModalCentroCosto()">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-floppy"></i> Guardar Centro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════════════════ MODAL: EMPRESA / PERSONA ════════════════ -->
+  <div id="modal-empresa" class="modal-overlay">
+    <div class="modal-window" style="max-width:920px">
+      <div class="modal-header">
+        <h3 id="emp-form-title"><i class="bi bi-building"></i> Registro de Empresa / Persona</h3>
+        <button type="button" class="modal-close" onclick="cerrarFormularioEmpresa()">&times;</button>
+      </div>
+
+      <form id="form-empresa-completo" onsubmit="guardarEmpresa(event)">
+        <input type="hidden" id="emp-edit-id" value="">
+        <div class="modal-body">
+          <!-- Pestañas del formulario -->
+          <div class="form-tabs">
+            <button type="button" class="form-tab-btn active" onclick="switchEmpTab('identificacion')">
+              <i class="bi bi-person-badge"></i> 1. Identificación
+            </button>
+            <button type="button" class="form-tab-btn" onclick="switchEmpTab('general')">
+              <i class="bi bi-info-circle"></i> 2. Información General
+            </button>
+            <button type="button" class="form-tab-btn" onclick="switchEmpTab('ubicacion')">
+              <i class="bi bi-geo-alt"></i> 3. Ubicación y Contacto
+            </button>
+            <button type="button" class="form-tab-btn" onclick="switchEmpTab('responsable')">
+              <i class="bi bi-person-gear"></i> 4. Responsable de la Empresa
+            </button>
+            <button type="button" class="form-tab-btn" onclick="switchEmpTab('tributaria')">
+              <i class="bi bi-file-earmark-text"></i> 5. Información Tributaria
+            </button>
+          </div>
+
+          <!-- ── PESTAÑA 1: IDENTIFICACIÓN ── -->
+          <div id="emp-tab-identificacion" class="form-tab-pane active">
+            <div class="form-grid-3" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-tipo-persona">Tipo de Persona <span style="color:var(--alert-red)">*</span></label>
+                <select id="emp-tipo-persona" required onchange="onTipoPersonaChange()">
+                  <option value="Juridica">Persona Jurídica (Empresa / Sociedad)</option>
+                  <option value="Natural">Persona Natural (Independiente / Profesional)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="emp-tipo-doc">Tipo de Documento <span style="color:var(--alert-red)">*</span></label>
+                <select id="emp-tipo-doc" required onchange="onTipoDocumentoChange()">
+                  <option value="NIT">NIT - Número de Identificación Tributaria</option>
+                  <option value="CC">Cédula de Ciudadanía</option>
+                  <option value="CE">Cédula de Extranjería</option>
+                  <option value="Pasaporte">Pasaporte</option>
+                  <option value="TI">Tarjeta de Identidad</option>
+                  <option value="PPT">Permiso por Protección Temporal (PPT)</option>
+                  <option value="Extranjero">Documento Extranjero</option>
+                  <option value="NoIdentificado">Documento No Identificado</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="emp-doc-num">Número de Identificación <span style="color:var(--alert-red)">*</span></label>
+                <input type="text" id="emp-doc-num" placeholder="Ej: 900123456" required oninput="Validaciones.validarDocEmpresaInput(this); onNumeroDocumentoInput()">
+              </div>
+            </div>
+
+            <!-- Bloque NIT y Razón Social -->
+            <div id="emp-fields-juridica">
+              <div class="form-grid-3" style="margin-bottom:1rem">
+                <div class="form-group">
+                  <label for="emp-dv">Dígito de Verificación (DV)</label>
+                  <div style="display:flex; gap:0.5rem">
+                    <input type="text" id="emp-dv" style="width:70px; text-align:center; font-weight:700" placeholder="0" maxlength="1" oninput="Validaciones.soloNumerosInput(this)" readonly>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="recalcularDv()" title="Calcular DV según algoritmo DIAN">
+                      <i class="bi bi-calculator"></i> Calcular
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group" style="grid-column: span 2">
+                  <label for="emp-razon-social">Razón Social <span style="color:var(--alert-red)">*</span></label>
+                  <input type="text" id="emp-razon-social" placeholder="Ej: Consultores Financieros &amp; Asociados S.A.S." pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:1rem">
+                <label for="emp-nombre-comercial">Nombre Comercial / Sigla</label>
+                <input type="text" id="emp-nombre-comercial" placeholder="Ej: CONSUFIN S.A.S." pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+              </div>
+            </div>
+
+            <!-- Bloque Persona Natural -->
+            <div id="emp-fields-natural" style="display:none">
+              <div class="form-grid-4" style="margin-bottom:1rem">
+                <div class="form-group">
+                  <label for="emp-primer-nombre">Primer Nombre <span style="color:var(--alert-red)">*</span></label>
+                  <input type="text" id="emp-primer-nombre" placeholder="Ej: Carlos" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+                </div>
+                <div class="form-group">
+                  <label for="emp-segundo-nombre">Segundo Nombre</label>
+                  <input type="text" id="emp-segundo-nombre" placeholder="Ej: Eduardo" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+                </div>
+                <div class="form-group">
+                  <label for="emp-primer-apellido">Primer Apellido <span style="color:var(--alert-red)">*</span></label>
+                  <input type="text" id="emp-primer-apellido" placeholder="Ej: Restrepo" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+                </div>
+                <div class="form-group">
+                  <label for="emp-segundo-apellido">Segundo Apellido</label>
+                  <input type="text" id="emp-segundo-apellido" placeholder="Ej: Gómez" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── PESTAÑA 2: INFORMACIÓN GENERAL ── -->
+          <div id="emp-tab-general" class="form-tab-pane">
+            <div class="form-grid-3" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-nombre-resumen">Nombre en el Sistema <span style="color:var(--alert-red)">*</span></label>
+                <input type="text" id="emp-nombre-resumen" placeholder="Nombre visible en menús e informes" required>
+              </div>
+              <div class="form-group">
+                <label for="emp-sector">Sector Económico</label>
+                <input type="text" id="emp-sector" placeholder="Ej: Servicios Profesionales, Salud, Comercio, Tecnología" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+              </div>
+              <div class="form-group">
+                <label for="emp-estado">Estado de la Empresa</label>
+                <select id="emp-estado">
+                  <option value="Activa">Activa</option>
+                  <option value="Inactiva">Inactiva</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem">
+              <label for="emp-desc">Descripción General / Objeto Social</label>
+              <textarea id="emp-desc" rows="3" placeholder="Descripción breve de la actividad, clientes clave y particularidades de la empresa"></textarea>
+            </div>
+          </div>
+
+          <!-- ── PESTAÑA 3: UBICACIÓN Y CONTACTO ── -->
+          <div id="emp-tab-ubicacion" class="form-tab-pane">
+            <div class="form-grid-3" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-pais">País</label>
+                <input type="text" id="emp-pais" value="Colombia" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)" required>
+              </div>
+              <div class="form-group">
+                <label for="emp-departamento">Departamento</label>
+                <select id="emp-departamento" onchange="onDepartamentoChange()">
+                  <option value="">— Seleccione Departamento —</option>
+                  <option value="Antioquia">Antioquia</option>
+                  <option value="Atlántico">Atlántico</option>
+                  <option value="Bogotá D.C.">Bogotá D.C.</option>
+                  <option value="Bolívar">Bolívar</option>
+                  <option value="Boyacá">Boyacá</option>
+                  <option value="Caldas">Caldas</option>
+                  <option value="Caquetá">Caquetá</option>
+                  <option value="Cauca">Cauca</option>
+                  <option value="Cesar">Cesar</option>
+                  <option value="Córdoba">Córdoba</option>
+                  <option value="Cundinamarca">Cundinamarca</option>
+                  <option value="Huila">Huila</option>
+                  <option value="La Guajira">La Guajira</option>
+                  <option value="Magdalena">Magdalena</option>
+                  <option value="Meta">Meta</option>
+                  <option value="Nariño">Nariño</option>
+                  <option value="Norte de Santander">Norte de Santander</option>
+                  <option value="Quindío">Quindío</option>
+                  <option value="Risaralda">Risaralda</option>
+                  <option value="Santander">Santander</option>
+                  <option value="Sucre">Sucre</option>
+                  <option value="Tolima">Tolima</option>
+                  <option value="Valle del Cauca">Valle del Cauca</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="emp-municipio">Municipio / Ciudad</label>
+                <input type="text" id="emp-municipio" placeholder="Ej: Medellín, Bogotá, Cali, Barranquilla" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+              </div>
+            </div>
+
+            <div class="form-grid-3" style="margin-bottom:1rem">
+              <div class="form-group" style="grid-column: span 2">
+                <label for="emp-direccion">Dirección Principal</label>
+                <input type="text" id="emp-direccion" placeholder="Ej: Calle 50 # 45 - 20">
+              </div>
+              <div class="form-group">
+                <label for="emp-complemento">Complemento (Oficina/Piso)</label>
+                <input type="text" id="emp-complemento" placeholder="Ej: Oficina 402, Edificio Alianza">
+              </div>
+            </div>
+
+            <div class="form-grid-4" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-barrio">Barrio o Zona</label>
+                <input type="text" id="emp-barrio" placeholder="Ej: El Poblado">
+              </div>
+              <div class="form-group">
+                <label for="emp-cp">Código Postal</label>
+                <input type="text" id="emp-cp" placeholder="Ej: 050021" inputmode="numeric" oninput="Validaciones.soloNumerosInput(this)">
+              </div>
+              <div class="form-group">
+                <label for="emp-email">Correo Electrónico Empresarial</label>
+                <input type="email" id="emp-email" placeholder="contacto@empresa.com">
+              </div>
+              <div class="form-group">
+                <label for="emp-tel">Celular / Teléfono</label>
+                <input type="text" id="emp-tel" placeholder="Ej: 3001234567" inputmode="numeric" oninput="Validaciones.soloNumerosInput(this)">
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-web">Página Web</label>
+                <input type="url" id="emp-web" placeholder="https://www.empresa.com">
+              </div>
+              <div class="form-group">
+                <label for="emp-correspondencia">Dirección de Correspondencia (si aplica)</label>
+                <input type="text" id="emp-correspondencia" placeholder="Dirección para notificaciones y mensajería">
+              </div>
+            </div>
+          </div>
+
+          <!-- ── PESTAÑA 4: RESPONSABLE DE LA EMPRESA ── -->
+          <div id="emp-tab-responsable" class="form-tab-pane">
+            <div class="form-grid-3" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-resp-nombre">Nombre Completo del Responsable</label>
+                <input type="text" id="emp-resp-nombre" placeholder="Ej: María Fernanda Gómez" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$" title="Solo se permiten letras y espacios" oninput="Validaciones.soloLetrasInput(this)">
+              </div>
+              <div class="form-group">
+                <label for="emp-resp-rol">Rol en la Entidad</label>
+                <select id="emp-resp-rol">
+                  <option value="Representante Legal">Representante Legal</option>
+                  <option value="Contacto Administrativo">Contacto Administrativo</option>
+                  <option value="Responsable Financiero">Responsable Financiero / Gerente</option>
+                  <option value="Contador Encargado">Contador Encargado</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="emp-resp-cargo">Cargo Formal</label>
+                <input type="text" id="emp-resp-cargo" placeholder="Ej: Gerente General">
+              </div>
+            </div>
+
+            <div class="form-grid-3" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-resp-doc">Documento del Responsable</label>
+                <input type="text" id="emp-resp-doc" placeholder="Número de C.C." inputmode="numeric" oninput="Validaciones.soloNumerosInput(this)">
+              </div>
+              <div class="form-group">
+                <label for="emp-resp-email">Correo Electrónico</label>
+                <input type="email" id="emp-resp-email" placeholder="responsable@empresa.com">
+              </div>
+              <div class="form-group">
+                <label for="emp-resp-tel">Teléfono / Celular</label>
+                <input type="text" id="emp-resp-tel" placeholder="Ej: 3109876543" inputmode="numeric" oninput="Validaciones.soloNumerosInput(this)">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem">
+              <label for="emp-resp-obs">Observaciones del Responsable</label>
+              <input type="text" id="emp-resp-obs" placeholder="Poderes de firma, horarios de atención u observaciones de contacto">
+            </div>
+          </div>
+
+          <!-- ── PESTAÑA 5: INFORMACIÓN TRIBUTARIA ── -->
+          <div id="emp-tab-tributaria" class="form-tab-pane">
+            <div class="form-grid-3" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-regimen">Régimen Tributario</label>
+                <select id="emp-regimen">
+                  <option value="Responsable de IVA">Responsable de IVA (Régimen Ordinario)</option>
+                  <option value="No responsable de IVA">No Responsable de IVA</option>
+                  <option value="Régimen Simple de Tributación (RST)">Régimen Simple de Tributación (RST)</option>
+                  <option value="Gran Contribuyente">Gran Contribuyente</option>
+                  <option value="Régimen Tributario Especial (RTE)">Régimen Tributario Especial (RTE - ESAL)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="emp-iva">Obligación de IVA</label>
+                <select id="emp-iva">
+                  <option value="Responsable">Responsable de IVA (Bimestral / Cuatrimestral)</option>
+                  <option value="No Responsable">No Responsable de IVA</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="emp-ciiu">Código CIIU Principal (DIAN)</label>
+                <input type="text" id="emp-ciiu" placeholder="Ej: 6920" inputmode="numeric" oninput="Validaciones.soloNumerosInput(this)">
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom:1rem">
+              <div class="form-group">
+                <label for="emp-actividad">Actividad Económica Principal</label>
+                <input type="text" id="emp-actividad" placeholder="Descripción oficial según RUT">
+              </div>
+              <div class="form-group">
+                <label for="emp-secundarias">Actividades Secundarias (códigos separados por coma)</label>
+                <input type="text" id="emp-secundarias" placeholder="Ej: 6201, 6202" oninput="Validaciones.ciiuSecundariasInput(this)">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem">
+              <label for="emp-responsabilidades">Responsabilidades Tributarias (según RUT casilla 53)</label>
+              <input type="text" id="emp-responsabilidades" placeholder="Ej: O-13 Gran contribuyente, O-15 Autorretenedor, O-47 Régimen Simple, O-52 Facturador Electrónico">
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem">
+              <label for="emp-obs-tributarias">Observaciones Tributarias y Calendario Fiscal</label>
+              <textarea id="emp-obs-tributarias" rows="2" placeholder="Notas sobre retención en la fuente, periodicidad de IVA, ICA municipal o beneficios tributarios"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="limpiarFormularioEmpresa()">
+            <i class="bi bi-eraser"></i> Limpiar
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="cerrarFormularioEmpresa()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-floppy"></i> Guardar Empresa
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
